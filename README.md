@@ -1,0 +1,21 @@
+# Laboratorio U12 — Circuitos cuánticos y criptografía postcuántica
+
+**Johan Barrera · 1152538**  
+**Asignatura:** Arquitectura de computadores  
+**Repositorio previsto:** `barrera-post1-u12`  
+**Entorno de destino:** Ubuntu x86_64 en Oracle VirtualBox, CPU, sin NVIDIA, sin Colab y sin cuenta IBM Quantum.
+
+# Decisión P1: representatividad del ruido
+
+Se selecciona el modelo despolarizante uniforme para aislar el efecto del ruido y permitir una comparación reproducible con el mismo circuito ideal. Es suficiente para el objetivo educativo, pero no constituye una calibración de un procesador IBM. El canal no representa adecuadamente la relajación T1, que favorece la pérdida de excitación de 1 a 0, ni separa la pérdida de coherencia T2. Tampoco depende de la duración real de una puerta o un intervalo ocioso, ni distingue pares de qubits con distinta calidad. Las puertas de dos qubits pueden durar más y acumular mayor decoherencia; un único parámetro fijo no describe esa evolución temporal. Los errores de lectura son otra fuente distinta que este experimento no incluye.
+
+Para predecir un backend concreto se preferiría NoiseModel.from_backend() con su calibración reciente, mapeo y base de puertas, incorporando los mecanismos disponibles de relajación térmica y lectura. También se debería transpilar para su conectividad y tratar explícitamente los retardos cuando corresponda. Incluso ese modelo es una aproximación: no garantiza representar crosstalk, errores coherentes, correlaciones, deriva ni todos los detalles del hardware. Se contrastaría con ejecuciones físicas antes de afirmar precisión predictiva. En este laboratorio no se solicita cuenta ni acceso remoto porque introducir dependencia de calibraciones cambiantes dificultaría repetir los resultados. La simplificación es deliberada y válida para estudiar tendencias, no para publicar una fidelidad de hardware. Según el circuito y los mecanismos omitidos, puede subestimar o sobrestimar el error.
+
+
+# Decisión P1: utilidad y corrección de errores
+
+Se decide ejecutar este circuito corto directamente en el simulador con ruido, sin incorporar corrección cuántica de errores. Con 1024 shots y semilla 1152538, el objetivo 11 aparece 1002 veces (97,8516 %), frente a 6, 10 y 6 observaciones de 00, 01 y 10. El intervalo de Wilson al 95 % para su probabilidad es aproximadamente [96,7685 %, 98,5770 %], condicionado a muestras independientes del modelo. La probabilidad obtenida propagando la matriz de densidad es 97,9216 %. La respuesta domina ampliamente la referencia uniforme del 25 %, por lo que el ruido no impide identificarla. Estas cifras pertenecen al modelo especificado; no demuestran esa fidelidad en un dispositivo físico.
+
+El ejemplo de 85–92 % de la guía no se reproduce con este circuito y estos parámetros. Se conservan λ1=0,001 y λ2=0,01, seis H, cuatro X y dos CZ, y se reporta la medición real en lugar de aumentar el ruido para forzar el ejemplo. La degradación medida es 2,1484 puntos porcentuales. Además, λ es el parámetro despolarizante de Aer, no idéntico a la infidelidad media de puerta: para dimensión d, esta es λ(d−1)/d; en dos qubits resulta 0,0075. Tampoco existe un umbral universal exactamente igual a 1 %: depende del código, conectividad, decodificador y mecanismos físicos.
+
+Al escalar Grover, el número de iteraciones crece aproximadamente con la raíz del espacio de búsqueda y aumenta el número de puertas expuestas a errores. Bajo independencia, la probabilidad de no experimentar ciertos eventos puede modelarse como un producto de factores (1−p), no como una resta lineal ilimitada; ese producto no es una fórmula universal de éxito del algoritmo. Circuitos de 10 o 20 qubits no fallan por su tamaño solamente: importan profundidad, topología, coherencia y presupuesto de error. Los circuitos pequeños y poco profundos pueden ser informativos sobre qubits físicos; cálculos profundos y confiables, como Shor criptográficamente relevante, requieren una arquitectura tolerante a fallos con qubits lógicos. No se fija una frontera arbitraria de qubits a partir de esta simulación de dos qubits.
