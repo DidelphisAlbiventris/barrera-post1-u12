@@ -1,0 +1,14 @@
+{
+  "python": "3.12.14",
+  "qiskit": "1.4.5",
+  "qiskit_aer": "0.17.2",
+  "sistema": "Linux-6.18.57-x86_64-with-glibc2.41",
+  "arquitectura": "x86_64",
+  "libc": [
+    "glibc",
+    "2.41"
+  ],
+  "metodo": "density_matrix",
+  "device": "CPU",
+  "semilla": 1152538
+}
