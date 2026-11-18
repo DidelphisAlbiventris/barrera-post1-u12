@@ -1,0 +1,8 @@
+/.venv/
+/build/
+/bin/
+*.spec
+__pycache__/
+*.pyc
+.DS_Store
+/docs/etapas_pqc/
