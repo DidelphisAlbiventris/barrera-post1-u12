@@ -1,0 +1,7 @@
+{
+  "modulus_bits": 3072,
+  "public_spki_der_bytes": 422,
+  "private_pkcs1_der_bytes": 1767,
+  "signature_bytes": 384,
+  "nota": "Muestra generada; DER privado varía entre claves. Ninguna clave privada se conserva."
+}
